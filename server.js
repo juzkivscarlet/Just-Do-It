@@ -14,31 +14,8 @@ app.set("view engine", "handlebars");
 
 orm.gatherSongs();
 
-app.get("/", function(req,res) {
-    res.render("index", {
-        song: orm.songs
-    });
-    // orm.orm.listData();
-});
-
-app.get("/:table", function(req,res) {
-    connection.query(`select * from ??`, [req.params.table], function(err,data) {
-        if(err) throw err;
-        res.send(data);
-    });
-});
-
-app.put("/:table/:id", function(req,res) {
-    connection.query(`update ?? set completed = 'yes' where id = ?`, [req.params.table, req.params.id], function(err,result) {
-        if(err) throw err;
-        res.status(200).end();
-        orm.gatherSongs();
-    });
-});
-
-app.get("/api/songs", function(req,res) {
-    res.json(orm.songs);
-});
+var router = require('./controllers/router.js');
+app.use('/', router);
 
 app.listen(PORT, function() {
     console.log("Listening @ http://localhost:"+PORT);
