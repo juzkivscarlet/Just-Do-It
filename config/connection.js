@@ -3,7 +3,13 @@ var mysql = require('mysql');
 var con;
 
 if(process.env.JAWSDB_URL) {
-    con = mysql.createConnection(process.env.JAWSDB_URL);
+    con = mysql.createConnection({
+        host: "y06qcehxdtkegbeb.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+        user: "vfochzi9inggw5wk",
+        password: "yizd22j16l23l4te",
+        port: 3306,
+        database: "pzao8nbq0p6vtcvl"
+    });
 } else {
     con = mysql.createConnection({
         host: "localhost",
