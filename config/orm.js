@@ -1,22 +1,22 @@
 var connection = require('./connection.js');
 
-var songs = [];
-
 var Song = function(title, tasks, table) {
     this.title = title;
     this.tasks = tasks;
-    this.id = songs.length;
+    this.id = orm.songs.length;
     this.table = table;
 };
 
 var orm = {
+    songs: [],
     gatherSongs: function() {
         connection.query(`select * from songs`, function(err,res) {
             if(err) throw err;
             
-            if(songs.length!=0) songs = [];
+            // if(orm.songs.length!=0) orm.songs = [];
             for(var i=0; i<res.length; i++) {
                 orm.gatherAllTodos(res[i]);
+                // console.log(res[i].table_name);
             }
         });
     }, 
@@ -31,11 +31,11 @@ var orm = {
                 else newTask.completed = false;
                 taskList.push(newTask);
             }
-            songs.push(new Song(data.title, taskList, data.table_name));
+            orm.songs.push(new Song(data.title, taskList, data.table_name));
         });
     }, 
     listData: function() {
-        console.log(songs);
+        console.log(orm.songs);
     }
 };
 
@@ -43,5 +43,5 @@ module.exports = {
     orm: orm,
     gatherSongs: orm.gatherSongs,
     gatherTodos: orm.gatherTodos,
-    songs: songs
+    songs: orm.songs
 };
