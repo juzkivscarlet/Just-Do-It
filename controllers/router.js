@@ -11,14 +11,18 @@ module.exports = (function() {
         });
     });
 
+    router.get("/favicon.ico", function(req,res) {
+        res.status(204);
+    });
+
     router.get("/:table", function(req,res) {
-        connection.query(`select * from ??`, [req.params.table], function(err,data) {
+        connection.query(`select * from ${req.params.table}`, function(err,data) {
             if(err) throw err;
             res.send(data);
         });
     });
 
-    router.put("/:table/:id", function(req,res) {
+    router.put("/:tablename/:id", function(req,res) {
         connection.query(`update ?? set completed = 'yes' where id = ?`, [req.params.table, req.params.id], function(err,result) {
             if(err) throw err;
             res.status(200).end();
