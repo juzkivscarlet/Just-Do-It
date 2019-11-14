@@ -2,17 +2,20 @@ $(function() {
 
     $(".song-btn").on("click", function() {
         var id = $(this).data("id");
-        var table = $(this).data('table');
+        var table = $(this).attr('data-tablename');
         $("button").removeClass("btn-success").addClass("btn-primary");
         $(this).removeClass("btn-primary").addClass("btn-success");
 
-        $.ajax("/"+table).then(function(res) {
-            writeTasks(table,res);
-        });
+        ajaxTasks(table);
     });
 
+    function ajaxTasks(table) {
+        $.ajax(`/${table}`).then(function(res) {
+            writeTasks(table,res);
+        });
+    }
+
     var writeTasks = function(song,data) {
-        console.log(data);
 
         $("#taskView").empty();
         $("#taskView").html("<h4>To-dos</h4><br>");
